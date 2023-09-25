@@ -12,7 +12,7 @@ var questionList = [
     {
         question: "What does HTML stand for?",
         choices: ["Hyper Text Markup Language", "Hyper Text Martian Language", "Happy Time Make Laugh", "Hyperion Telsa Maker Language"],
-        answer: "Hyper text markup language",
+        answer: "Hyper Text Markup Language",
     },
     {
         question: "Commonly used data types DO NOT include",
@@ -31,6 +31,7 @@ var questionList = [
     }
 ];
 var question;
+var currentIndex = 0
 
 startQuiz.addEventListener("click", function(){
     boxSection.style.display = "none";
@@ -47,8 +48,26 @@ startQuiz.addEventListener("click", function(){
     },1000)
 })
 
+function answer(event){
+    var correctAnswer = questionList[currentIndex].answer
+    var selectedAnswer = event.currentTarget.textContent
+    if(selectedAnswer == correctAnswer){
+        alert("correct")
+    
+    }else{
+        alert("wring")
+    }
+    currentIndex++
+    quiz()
+}
+
+buttonEl[0].addEventListener("click", answer);
+buttonEl[1].addEventListener("click", answer);
+buttonEl[2].addEventListener("click", answer);
+buttonEl[3].addEventListener("click", answer);
+
 function quiz(){
-    question = questionList[Math.floor(Math.random()*questionList.length)]
+    question = questionList[currentIndex]
     console.log(question);
     h3.textContent = question.question;
     buttonEl[0].textContent = question.choices[0];
