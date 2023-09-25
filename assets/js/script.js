@@ -3,7 +3,11 @@
 // var scores = [C:/Users/eolso/Desktop/bootcamp/Challenges/Code-Quiz-Challenge-4/assets/scores.html]
 var startQuiz = document.querySelector("#start");
 var timerP = document.querySelector("#timer");
-var count = 45;
+var boxSection = document.querySelector(".box");
+var questionSection = document.querySelector(".question-section");
+var h3 = document.querySelector("#question");
+var buttonEl = document.querySelectorAll(".button")
+var count = 60;
 var questionList = [
     {
         question: "What does HTML stand for?",
@@ -25,10 +29,12 @@ var questionList = [
         choices: ["To learn coding", "To find the Holy Grail", "To learn Spainish", "To learn to bake"],
         answer: "To find the Holy Grail"
     }
-]
+];
 var question;
 
 startQuiz.addEventListener("click", function(){
+    boxSection.style.display = "none";
+    questionSection.style.display = "block";
     quiz();
     var timer = setInterval(function(){
         if(count > 1){
@@ -44,6 +50,11 @@ startQuiz.addEventListener("click", function(){
 function quiz(){
     question = questionList[Math.floor(Math.random()*questionList.length)]
     console.log(question);
+    h3.textContent = question.question;
+    buttonEl[0].textContent = question.choices[0];
+    buttonEl[1].textContent = question.choices[1];
+    buttonEl[2].textContent = question.choices[2];
+    buttonEl[3].textContent = question.choices[3];
 }
 
 
