@@ -4,8 +4,8 @@ var timerP = document.querySelector("#timer");
 var boxSection = document.querySelector(".box");
 var questionSection = document.querySelector(".question-section");
 var h3 = document.querySelector("#question");
-var buttonEl = document.querySelectorAll(".button")
-var count = 60;
+var buttonEl = document.querySelectorAll(".button");
+var count = 30;
 var questionList = [
     {
         question: "What does HTML stand for?",
@@ -29,36 +29,54 @@ var questionList = [
     }
 ];
 var question;
-var currentIndex = 0
+var currentIndex = 0;
+var timer;
 
 // when use clicks start button, timer starts and quiz function is called
 startQuiz.addEventListener("click", function(){
     boxSection.style.display = "none";
     questionSection.style.display = "block";
     quiz();
-    var timer = setInterval(function(){
+    timer = setInterval(function(){
         if(count > 1){
             count--;
             timerP.textContent = "Time Remaining: " + count;
         }else {
+            clearInterval(timer);
             timerP.textContent = "Game Over";
+            gameOver = true;
         }
     },1000)
 })
 
-// event listeners in 62-65 capture user choice and compare to actual correct answer
+var gameOver = false;
+
+
 function answer(event){
-    var correctAnswer = questionList[currentIndex].answer
-    var selectedAnswer = event.currentTarget.textContent
+    if(gameOver) {
+        return;
+    }
+    var correctAnswer = questionList[currentIndex].answer;
+    var selectedAnswer = event.currentTarget.textContent;
+    var result = document.querySelector("#result");
     if(selectedAnswer == correctAnswer){
-        alert("correct")
+        result.textContent = "Correct!"
     }else{
-        alert("wrong")
+        result.textContent = "Incorrect"
+        count -= 10;
     }
     currentIndex++
-    quiz()
+    
+    if (currentIndex < questionList.length) {
+        quiz();
+    } else {
+        gameOver = true;
+        clearInterval(timer);
+        timerP.textContent = "Score: " + count;
+    }
 }
 
+// event listeners to capture user choice and compare to actual correct answer
 buttonEl[0].addEventListener("click", answer);
 buttonEl[1].addEventListener("click", answer);
 buttonEl[2].addEventListener("click", answer);

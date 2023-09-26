@@ -10,12 +10,12 @@ header {
 
 a {
     padding: 10px;
-    margin: 10px
+    margin: 10px;
 
 }
 
 .box {
-    margin: 100px
+    margin: 100px;
 }
 
 .box h1 {
@@ -30,7 +30,7 @@ a {
 #button4
  {
     background-color: blueviolet;
-    color: White
+    color: White;
 }
 
 .question-section {
