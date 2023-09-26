@@ -52,7 +52,7 @@ startQuiz.addEventListener("click", function(){
 
 var gameOver = false;
 
-
+// this fuction allows use to select and answer, messages deiplsyed indicating correct of incorrect, and timer is decremented 10 sec forn incorret answer.
 function answer(event){
     if(gameOver) {
         return;
