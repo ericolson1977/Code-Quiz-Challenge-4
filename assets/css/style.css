@@ -27,12 +27,17 @@ a {
 #button1,
 #button2,
 #button3,
-#button4
+#button4,
+#submit
  {
     background-color: blueviolet;
     color: White;
 }
 
 .question-section {
+    display: none;
+}
+
+.score-section {
     display: none;
 }

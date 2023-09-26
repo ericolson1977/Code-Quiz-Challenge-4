@@ -5,6 +5,7 @@ var boxSection = document.querySelector(".box");
 var questionSection = document.querySelector(".question-section");
 var h3 = document.querySelector("#question");
 var buttonEl = document.querySelectorAll(".button");
+var scoreSection = document.querySelector(".score-section");
 var count = 30;
 var questionList = [
     {
@@ -24,7 +25,7 @@ var questionList = [
     }, 
     {
         question: "What is your Quest?",
-        choices: ["To learn coding", "To find the Holy Grail", "To learn Spainish", "To learn to bake"],
+        choices: ["To learn coding", "To find the Holy Grail", "To learn Spanish", "To learn to bake"],
         answer: "To find the Holy Grail"
     }
 ];
@@ -86,9 +87,15 @@ buttonEl[3].addEventListener("click", answer);
 function quiz(){
     question = questionList[currentIndex]
     // console.log(question);
-    h3.textContent = question.question;
-    buttonEl[0].textContent = question.choices[0];
-    buttonEl[1].textContent = question.choices[1];
-    buttonEl[2].textContent = question.choices[2];
-    buttonEl[3].textContent = question.choices[3];
+    if (question) {
+        h3.textContent = question.question;
+        buttonEl[0].textContent = question.choices[0];
+        buttonEl[1].textContent = question.choices[1];
+        buttonEl[2].textContent = question.choices[2];
+        buttonEl[3].textContent = question.choices[3];
+    } else {
+        questionSection.style.display = "none";
+        scoreSection.style.display = "block";
+        document.querySelector("#final-score").textContent = "Final Score: " + count;
+    } 
 }
