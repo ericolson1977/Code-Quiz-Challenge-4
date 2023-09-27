@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Code Quiz</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <header>
-        <a href="scores.html">View Highscores</a>
+        <a href= #high-score-list id="high-score-link">View Highscores</a>
         <p id="timer">Time Remaining</p>
     </header>
 
@@ -32,9 +32,16 @@
             <h2>Final Score: <span id="final-score"></span></h2>
             <form id="initials">
                 <p>Enter your initials:</p>
-                <input type="text">
+                <input type="text" id="input-initials">
                 <button id="submit">Submit</button>
             </form>
+        </section>
+        <section class="high-score-list">
+            <h1 class="highscores">High Scores</h1>
+                <ol id="score-list">
+                    <li></li>
+                </ol>
+                <button id="start-over">Start Over</button>
         </section>
     </main>  
     <script src="./js/script.js"></script>

@@ -28,7 +28,8 @@ a {
 #button2,
 #button3,
 #button4,
-#submit
+#submit,
+#start-over
  {
     background-color: blueviolet;
     color: White;
@@ -39,5 +40,9 @@ a {
 }
 
 .score-section {
+    display: none;
+}
+
+.high-score-list {
     display: none;
 }
