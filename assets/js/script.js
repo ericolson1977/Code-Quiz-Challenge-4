@@ -28,7 +28,7 @@ var questionList = [
         question: "The condition in an if / else statement is enclosed within ____.",
         choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
         answer: "parentheses",
-    }, 
+    },
     {
         question: "What is your Quest?",
         choices: ["To learn coding", "To find the Holy Grail", "To learn Spanish", "To learn to bake"],
@@ -46,28 +46,29 @@ var timer;
 var gameOver = false;
 var quizOver = false;
 
-// links to Highsocres section of page and only diplays that section
-highScoresPage.addEventListener("click", function() {
+// links to Highscores section of page and only diplays that section
+highScoresPage.addEventListener("click", function () {
     boxSection.style.display = "none";
     questionSection.style.display = "none";
     highScoreSection.style.display = "block"
 })
 
-// when use clicks start button, timer starts and quiz function is called
-startQuiz.addEventListener("click", function(){
+// when user clicks start button, timer starts and quiz function is called
+startQuiz.addEventListener("click", function () {
     boxSection.style.display = "none";
     questionSection.style.display = "block";
     quiz();
-    timer = setInterval(function(){
-        if(count > 1){
+    timer = setInterval(function () {
+        if (count > 1) {
             count--;
             timerP.textContent = "Time Remaining: " + count;
-        }else {
+        } else {
             clearInterval(timer);
             timerP.textContent = "Game Over";
             gameOver = true;
         }
-    },1000)
+        checkTimer();
+    }, 1000)
 })
 
 // event listeners to capture user choice and compare to actual correct answer
@@ -77,7 +78,7 @@ buttonEl[2].addEventListener("click", answer);
 buttonEl[3].addEventListener("click", answer);
 
 // this will start the quiz
-function quiz(){
+function quiz() {
     if (quizOver) {
         questionSection.style.display = "none";
         scoreSection.style.display = "block";
@@ -93,17 +94,34 @@ function quiz(){
     }
 }
 
+// ends quiz when timer reaches 0
+function checkTimer() {
+    if (count <= 0) {
+        clearInterval(timer);
+        timerP.textContent = "Game Over";
+        gameOver = true;
+        displayFinalScore();
+    }
+}
+
+function displayFinalScore() {
+    questionSection.style.display = "none";
+    scoreSection.style.display = "block";
+    document.querySelector("#final-score").textContent = count;
+    localStorage.setItem("Final Score", count);
+}
+
 // this fuction allows use to select and answer, messages diplayed indicating correct of incorrect, and timer is decremented 10 sec forn incorret answer.
-function answer(event){
-    if(gameOver) {
+function answer(event) {
+    if (gameOver) {
         return;
     }
     var correctAnswer = questionList[currentIndex].answer;
     var selectedAnswer = event.currentTarget.textContent;
     var result = document.querySelector("#result");
-    if(selectedAnswer == correctAnswer){
+    if (selectedAnswer == correctAnswer) {
         result.textContent = "Correct!"
-    }else{
+    } else {
         result.textContent = "Incorrect"
         count -= 10;
     }
@@ -120,7 +138,7 @@ function answer(event){
 }
 
 //user can enter initals to have them added, with the score, to the high scores list
-submitBtn.addEventListener("click", function(e){
+submitBtn.addEventListener("click", function (e) {
     scoreSection.style.display = "none";
     highScoreSection.style.display = "block";
     e.preventDefault()
@@ -134,6 +152,6 @@ submitBtn.addEventListener("click", function(e){
 })
 
 //starts the quiz over
-startOverBtn.addEventListener("click", function() {
+startOverBtn.addEventListener("click", function () {
     location.reload()
 })
