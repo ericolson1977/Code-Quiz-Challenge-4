@@ -48,9 +48,7 @@ var quizOver = false;
 
 // links to Highscores section of page and only diplays that section
 highScoresPage.addEventListener("click", function () {
-    boxSection.style.display = "none";
-    questionSection.style.display = "none";
-    highScoreSection.style.display = "block"
+    displayHighScores();
 })
 
 // when user clicks start button, timer starts and quiz function is called
@@ -59,15 +57,15 @@ startQuiz.addEventListener("click", function () {
     questionSection.style.display = "block";
     quiz();
     timer = setInterval(function () {
-        if (count > 1) {
+        if (count > 0) {
             count--;
             timerP.textContent = "Time Remaining: " + count;
         } else {
             clearInterval(timer);
             timerP.textContent = "Game Over";
             gameOver = true;
+            displayFinalScore();
         }
-        checkTimer();
     }, 1000)
 })
 
@@ -92,23 +90,6 @@ function quiz() {
         buttonEl[2].textContent = question.choices[2];
         buttonEl[3].textContent = question.choices[3];
     }
-}
-
-// ends quiz when timer reaches 0
-function checkTimer() {
-    if (count <= 0) {
-        clearInterval(timer);
-        timerP.textContent = "Game Over";
-        gameOver = true;
-        displayFinalScore();
-    }
-}
-
-function displayFinalScore() {
-    questionSection.style.display = "none";
-    scoreSection.style.display = "block";
-    document.querySelector("#final-score").textContent = count;
-    localStorage.setItem("Final Score", count);
 }
 
 // this fuction allows use to select and answer, messages diplayed indicating correct of incorrect, and timer is decremented 10 sec forn incorret answer.
@@ -137,19 +118,43 @@ function answer(event) {
     }
 }
 
+// renders fianl score section when quiz is over
+function displayFinalScore() {
+    questionSection.style.display = "none";
+    scoreSection.style.display = "block";
+    document.querySelector("#final-score").textContent = count;
+    localStorage.setItem("Final Score", count);
+}
+
 //user can enter initals to have them added, with the score, to the high scores list
-submitBtn.addEventListener("click", function (e) {
-    scoreSection.style.display = "none";
+submitBtn.addEventListener("click", function(e){
+    e.preventDefault();
+    var userInitials = initialsEl.value;
+    var userScore = count;
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    highScores.push({ initials: userInitials, score: userScore });
+    highScores.sort(function(a, b) {
+        return b.score - a.score;
+    });
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+    displayHighScores();
+    initialsEl.value = "";
+});
+
+//pulls scores and initals from local storage and sorts in descending order
+function displayHighScores() {
     highScoreSection.style.display = "block";
-    e.preventDefault()
-    var userInitials = initialsEl.value
-    localStorage.setItem("Initials", userInitials);
-    var highScoreInitials = localStorage.getItem("Initials");
-    var highScoreScore = localStorage.getItem("Final Score");
-    var scoreListItem = document.createElement("li");
-    scoreListItem.textContent = "Initials: " + highScoreInitials + ", Score: " + highScoreScore;
-    scoreList.appendChild(scoreListItem);
-})
+    questionSection.style.display = "none";
+    boxSection.style.display = "none";
+    scoreSection.style.display = "none";
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    scoreList.innerHTML = "";
+    for (var i = 0; i < highScores.length; i++) {
+        var scoreListItem = document.createElement("li");
+        scoreListItem.textContent = "Initials: " + highScores[i].initials + ", Score: " + highScores[i].score;
+        scoreList.appendChild(scoreListItem);
+    }
+}
 
 //starts the quiz over
 startOverBtn.addEventListener("click", function () {
